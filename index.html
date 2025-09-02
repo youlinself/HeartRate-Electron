@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'">
+    <link href="./styles.css" rel="stylesheet">
+    <title>心率广播接收器 by 凉丝海悠</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="header">
+        <h1>❤️ 心率监测器</h1>
+        <p>连接您的蓝牙心率设备，实时监测您的心率数据</p>
+      </div>
+      
+      <div class="version-info">
+        当前node版本 <span id="node-version"></span>,
+        Chromium <span id="chrome-version"></span>,
+        Electron <span id="electron-version"></span>.
+      </div>
+
+      <!-- 初始按钮区域 -->
+      <button class="start-button">开始搜索蓝牙设备</button>
+
+      <!-- 心率显示区域（初始隐藏） -->
+      <div id="app2" style="display: none;">
+        <div class="heartView">
+          <div class="heart-label">当前心率</div>
+          <div id="heart" class="heart">0</div>
+          <div class="status-indicator">
+            <div class="status-dot"></div>
+            <div class="status-text">设备已连接</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- You can also require other files to run in this process -->
+    <script>
+        console.log('Inline script loaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded event fired');
+            const button = document.querySelector('.start-button');
+            if (button) {
+                button.addEventListener('click', function() {
+                    alert('Inline script works!');
+                });
+            }
+        });
+    </script>
+    <script src="./renderer.js"></script>
+  </body>
+</html>

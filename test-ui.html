@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="./styles.css" rel="stylesheet">
+    <title>UI 测试页面</title>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>❤️ 心率监测器</h1>
+            <p>连接您的蓝牙心率设备，实时监测您的心率数据</p>
+        </div>
+        
+        <div class="version-info">
+            当前node版本 <span>v16.0.0</span>,
+            Chromium <span>v96.0.0</span>,
+            Electron <span>v16.0.0</span>.
+        </div>
+
+        <!-- 设备列表测试 -->
+        <div class="device-list">
+            <div class="device-item" onclick="alert('设备1被点击')">
+                <div class="device-icon">📱</div>
+                <div class="device-info">
+                    <div class="device-name">华为手环6</div>
+                    <div class="device-id">ID: 00:11:22:33:44:55</div>
+                </div>
+            </div>
+            
+            <div class="device-item" onclick="alert('设备2被点击')">
+                <div class="device-icon">⌚</div>
+                <div class="device-info">
+                    <div class="device-name">小米手环7</div>
+                    <div class="device-id">ID: AA:BB:CC:DD:EE:FF</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 连接过程UI测试 -->
+        <div class="connecting-overlay" style="display: none;">
+            <div class="connecting-content">
+                <div class="connecting-spinner"></div>
+                <div class="connecting-text">正在连接设备...</div>
+                <div class="connecting-subtext">请稍候，这可能需要几秒钟</div>
+            </div>
+        </div>
+
+        <!-- 透明心率显示测试 -->
+        <div class="transparent-heart-view" style="position: relative; top: 0; left: 0; transform: none;">
+            <div class="heart-label">当前心率</div>
+            <div class="heart">72</div>
+            <div class="close-button" onclick="alert('关闭按钮被点击')">×</div>
+        </div>
+    </div>
+
+    <script>
+        // 显示连接过程
+        function showConnecting() {
+            document.querySelector('.connecting-overlay').style.display = 'flex';
+            setTimeout(() => {
+                document.querySelector('.connecting-overlay').style.display = 'none';
+            }, 3000);
+        }
+
+        // 显示设备列表项hover效果
+        const deviceItems = document.querySelectorAll('.device-item');
+        deviceItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.classList.add('selected');
+            });
+            item.addEventListener('mouseleave', () => {
+                item.classList.remove('selected');
+            });
+        });
+
+        // 模拟连接过程
+        setTimeout(showConnecting, 1000);
+    </script>
+</body>
+</html>

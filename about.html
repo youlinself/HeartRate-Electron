@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>关于 - 心率监测器</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .about-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .about-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .about-header h1 {
+            color: #333;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .about-content {
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .author-info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .author-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .app-info {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .close-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+            width: fit-content;
+        }
+        
+        .close-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="about-container">
+        <div class="about-header">
+            <h1>❤️ 心率监测器</h1>
+        </div>
+        
+        <div class="about-content">
+            <div class="author-info">
+                <div class="author-name">一缕凉丝</div>
+                <p>热爱技术的全栈开发者</p>
+            </div>
+            
+            <div class="app-info">
+                <h3>应用介绍</h3>
+                <p>这是一款基于 Electron 开发的蓝牙心率监测应用，可以实时连接您的心率设备，监测并显示心率数据。</p>
+                <p>支持多种蓝牙心率设备，提供简洁直观的用户界面和实时数据展示。</p>
+            </div>
+            
+            <div style="text-align: center; color: #666; margin: 20px 0;">
+                <p>版本: 1.0.0</p>
+                <p>技术支持: electron@latest</p>
+            </div>
+        </div>
+        
+        <button class="close-button" onclick="window.close()">关闭</button>
+    </div>
+</body>
+</html>
