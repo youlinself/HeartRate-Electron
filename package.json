@@ -5,7 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager ./ demoapp --win --arch=x64 --out ../outputs --icon=logo.png --overwrite"
+    "build": "electron-packager ./ demoapp --win --arch=x64 --out ../outputs --icon=logo.png --overwrite",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -28,6 +30,7 @@
     "compression-webpack-plugin": "^11.1.0",
     "cross-env": "^7.0.3",
     "electron": "^33.2.1",
+    "electron-builder": "^26.0.12",
     "libpag": "^4.2.84",
     "lint-staged": "^13.2.0",
     "lodash": "^4.17.21",
@@ -42,7 +45,35 @@
     "electron-packager": "^17.1.2"
   },
   "build": {
-    "appId": "demoapp",
-    "win": "./logo.png"
+    "appId": "com.example.heartrate-monitor",
+    "productName": "心率监测器",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+      "!**/{appveyor.yml,.travis.yml,circle.yml}",
+      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "心率监测器"
+    }
   }
 }
