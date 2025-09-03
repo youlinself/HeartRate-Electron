@@ -6,7 +6,7 @@
   "scripts": {
     "start": "chcp 65001 && electron .",
     "dev": "chcp 65001 && electron . --dev",
-    "build": "electron-packager ./ demoapp --win --arch=x64 --out ../outputs --icon=logo.png --overwrite",
+    "build": "electron-packager ./ demoapp --win --arch=x64 --out ../outputs --icon=./logo.png --overwrite --ignore=\"test.html\" --ignore=\"test-ui.html\" --ignore=\"PROJECT_STRUCTURE.md\" --ignore=\"README.md\" --ignore=\"LICENSE.md\" --ignore=\"LICENSE.txt\" --ignore=\"yarn.lock\" --ignore=\".gitignore\" --asar --prune",
     "dist": "electron-builder",
     "dist:win": "electron-builder --win"
   },
@@ -49,7 +49,7 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "logo.png"
+      "icon": "./logo.png"
     },
     "nsis": {
       "oneClick": false,
