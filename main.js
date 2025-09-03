@@ -1,6 +1,7 @@
 const { log } = require('console')
 const { app, BrowserWindow, ipcMain, ipcRenderer, Menu } = require('electron')
 const path = require('path')
+const fs = require('fs').promises
 
 // 监听全局未处理的 Promise 拒绝
 process.on('unhandledRejection', (error, promise) => {
@@ -15,6 +16,7 @@ let selectBluetoothCallback
 let heartRateWindow = null
 let isBluetoothConnected = false // 蓝牙连接状态标志
 let mainWindow = null // 全局主窗口变量
+let skinConfig = null // 皮肤配置
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -37,7 +39,8 @@ function createWindow () {
           label: '皮肤',
           click: () => {
             console.log('皮肤菜单被点击');
-            // 这里可以添加皮肤切换逻辑
+            // 创建皮肤选择窗口
+            createSkinSelectionWindow();
           }
         },
         {
@@ -148,8 +151,135 @@ function createWindow () {
   mainWindow.loadFile('pages/index.html')
 }
 
-app.whenReady().then(() => {
+// 添加皮肤相关的IPC事件处理
+function setupSkinIPC() {
+  // 获取皮肤配置
+  ipcMain.handle('get-skin-config', async () => {
+    return skinConfig;
+  });
+
+  // 切换皮肤
+  ipcMain.handle('change-skin', async (event, skinId) => {
+    const skin = skinConfig.skins.find(s => s.id === skinId);
+    if (skin) {
+      skinConfig.currentSkin = skinId;
+      await saveSkinConfig();
+      await saveSkinCache(); // 保存皮肤缓存
+      
+      // 通知所有窗口皮肤已改变
+      if (heartRateWindow) {
+        heartRateWindow.webContents.send('skin-changed', getCurrentSkin());
+      }
+      if (mainWindow) {
+        mainWindow.webContents.send('skin-changed', getCurrentSkin());
+      }
+      
+      console.log(`皮肤已切换到: ${skin.name}`);
+      return { success: true, skin: getCurrentSkin() };
+    } else {
+      return { success: false, error: '皮肤不存在' };
+    }
+  });
+}
+
+// 加载皮肤配置
+async function loadSkinConfig() {
+  try {
+    const configPath = path.join(__dirname, 'config', 'skin-config.json');
+    const data = await fs.readFile(configPath, 'utf8');
+    skinConfig = JSON.parse(data);
+    console.log('皮肤配置加载成功');
+    
+    // 检查是否有本地缓存的皮肤选择
+    await checkLocalSkinCache();
+  } catch (error) {
+    console.error('加载皮肤配置失败:', error);
+    // 使用默认配置
+    skinConfig = {
+      skins: [
+        {
+          id: "default",
+          name: "默认皮肤",
+          fontFamily: "Arial, sans-serif",
+          fontColor: "#ff6b6b",
+          fontSize: 64,
+          backgroundColor: "transparent",
+          backgroundImage: null,
+          animation: "pulse",
+          textShadow: "0 0 10px rgba(255, 107, 107, 0.8), 0 0 20px rgba(255, 107, 107, 0.6), 0 0 30px rgba(255, 107, 107, 0.4)"
+        }
+      ],
+      currentSkin: "default"
+    };
+    
+    // 检查是否有本地缓存的皮肤选择
+    await checkLocalSkinCache();
+  }
+}
+
+// 检查本地皮肤缓存
+async function checkLocalSkinCache() {
+  try {
+    const cachePath = path.join(__dirname, 'config', 'skin-cache.json');
+    try {
+      await fs.access(cachePath);
+      const cacheData = await fs.readFile(cachePath, 'utf8');
+      const cache = JSON.parse(cacheData);
+      
+      // 验证缓存的皮肤是否存在
+      const cachedSkin = skinConfig.skins.find(skin => skin.id === cache.currentSkin);
+      if (cachedSkin) {
+        skinConfig.currentSkin = cache.currentSkin;
+        console.log('使用本地缓存的皮肤:', cache.currentSkin);
+      } else {
+        console.log('缓存的皮肤不存在，使用默认皮肤');
+      }
+    } catch (accessError) {
+      // 文件不存在，忽略错误
+      console.log('没有找到皮肤缓存文件，使用默认配置');
+    }
+  } catch (error) {
+    console.error('读取皮肤缓存失败:', error);
+  }
+}
+
+// 保存皮肤缓存
+async function saveSkinCache() {
+  try {
+    const cachePath = path.join(__dirname, 'config', 'skin-cache.json');
+    const cacheData = {
+      currentSkin: skinConfig.currentSkin,
+      lastUpdated: new Date().toISOString()
+    };
+    await fs.mkdir(path.dirname(cachePath), { recursive: true });
+    await fs.writeFile(cachePath, JSON.stringify(cacheData, null, 2), 'utf8');
+    console.log('皮肤缓存保存成功');
+  } catch (error) {
+    console.error('保存皮肤缓存失败:', error);
+  }
+}
+
+// 保存皮肤配置
+async function saveSkinConfig() {
+  try {
+    const configPath = path.join(__dirname, 'config', 'skin-config.json');
+    await fs.mkdir(path.dirname(configPath), { recursive: true });
+    await fs.writeFile(configPath, JSON.stringify(skinConfig, null, 2), 'utf8');
+    console.log('皮肤配置保存成功');
+  } catch (error) {
+    console.error('保存皮肤配置失败:', error);
+  }
+}
+
+// 获取当前皮肤配置
+function getCurrentSkin() {
+  return skinConfig.skins.find(skin => skin.id === skinConfig.currentSkin) || skinConfig.skins[0];
+}
+
+app.whenReady().then(async () => {
+  await loadSkinConfig();
   createWindow()
+  setupSkinIPC();
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
@@ -199,6 +329,62 @@ function createAboutWindow() {
   })
 }
 
+// 创建皮肤选择窗口
+function createSkinSelectionWindow() {
+  const parentWindow = BrowserWindow.getFocusedWindow();
+  console.log('正在创建皮肤选择窗口...');
+  let skinWindow = new BrowserWindow({
+    width: 400,
+    height: 500,
+    resizable: false,
+    maximizable: false,
+    parent: parentWindow, // 设置父窗口
+    modal: !!parentWindow, // 设置为模态窗口
+    autoHideMenuBar: true, // 自动隐藏菜单栏
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'utils', 'skin-preload.js')
+    }
+  })
+
+  // 隐藏菜单栏
+  skinWindow.setMenuBarVisibility(false);
+
+  // 加载皮肤选择页面
+  skinWindow.loadFile('pages/skin-selection.html')
+
+  // 监听皮肤选择事件
+  ipcMain.once('select-skin', async (event, skinId) => {
+    try {
+      // 切换皮肤
+      const skin = skinConfig.skins.find(s => s.id === skinId);
+      if (skin) {
+        skinConfig.currentSkin = skinId;
+        await saveSkinConfig();
+        await saveSkinCache(); // 保存皮肤缓存
+        
+        // 通知心率窗口皮肤已改变
+        if (heartRateWindow) {
+          heartRateWindow.webContents.send('skin-changed', getCurrentSkin());
+        }
+        
+        console.log(`皮肤已切换到: ${skin.name}`);
+      }
+    } catch (error) {
+      console.error('切换皮肤失败:', error);
+    }
+    
+    // 关闭皮肤选择窗口
+    skinWindow.close();
+  });
+
+  // 窗口关闭时清理
+  skinWindow.on('closed', () => {
+    skinWindow = null;
+  });
+}
+
 // 创建心率显示窗口
 function createHeartRateWindow() {
   if (heartRateWindow) {
@@ -223,6 +409,11 @@ function createHeartRateWindow() {
 
   // 加载心率显示页面
   heartRateWindow.loadFile('pages/heart-rate.html')
+  
+  // 窗口加载完成后立即应用当前皮肤
+  heartRateWindow.webContents.once('did-finish-load', () => {
+    heartRateWindow.webContents.send('skin-changed', getCurrentSkin());
+  });
 
   // 监听窗口移动消息
   ipcMain.on('move-window', (event, position) => {
