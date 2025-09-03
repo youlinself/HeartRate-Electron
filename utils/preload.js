@@ -140,5 +140,9 @@ contextBridge.exposeInMainWorld('electron', {
   onDisconnectBluetooth: (callback) => {
     ipcRenderer.removeAllListeners('disconnect-bluetooth');
     ipcRenderer.on('disconnect-bluetooth', callback);
-  }  // 监听断开蓝牙连接事件
+  },  // 监听断开蓝牙连接事件
+  onResetMainWindow: (callback) => {
+    ipcRenderer.removeAllListeners('reset-main-window');
+    ipcRenderer.on('reset-main-window', callback);
+  }  // 监听重置主窗口事件
 });

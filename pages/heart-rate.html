@@ -53,7 +53,7 @@
             font-size: 14px;
         }
         
-        .close-confirm button {
+        button {
             background: #ff6b6b;
             color: white;
             border: none;
@@ -61,6 +61,11 @@
             border-radius: 5px;
             cursor: pointer;
             margin: 0 5px;
+        }
+        .close-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -71,8 +76,10 @@
     
     <div class="close-confirm" id="closeConfirm">
         <p>确定要关闭心率监测吗？</p>
-        <button onclick="confirmClose()">确定</button>
-        <button onclick="cancelClose()">取消</button>
+        <div class="close-btn">
+            <button onclick="confirmClose()">确定</button>
+            <button onclick="cancelClose()">取消</button>
+        </div>
     </div>
 
     <script>

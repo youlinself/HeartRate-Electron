@@ -14,9 +14,10 @@ let bluetoothPinCallback
 let selectBluetoothCallback
 let heartRateWindow = null
 let isBluetoothConnected = false // 蓝牙连接状态标志
+let mainWindow = null // 全局主窗口变量
 
 function createWindow () {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 600,
     height: 600,
     transparent: true, // 启用透明窗口
@@ -244,6 +245,27 @@ function createHeartRateWindow() {
       console.log('心率窗口关闭，断开蓝牙连接');
       isBluetoothConnected = false;
       // 这里可以添加主进程级别的蓝牙断开逻辑
+    }
+    // 重置主窗口状态
+    console.log('检查主窗口状态:', mainWindow ? '存在' : '不存在');
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      console.log('主窗口未销毁，可以发送重置消息');
+      console.log('重置主窗口状态');
+      // 先恢复主窗口
+      mainWindow.restore();
+      // 添加调试日志
+      console.log('准备发送reset-main-window消息');
+      try {
+        mainWindow.webContents.send('reset-main-window');
+        console.log('reset-main-window消息已发送');
+      } catch (error) {
+        console.error('发送reset-main-window消息失败:', error);
+      }
+    } else {
+      console.log('主窗口已销毁或不存在，无法发送重置消息');
+      if (mainWindow && mainWindow.isDestroyed()) {
+        console.log('主窗口已被销毁');
+      }
     }
     heartRateWindow = null;
   })
