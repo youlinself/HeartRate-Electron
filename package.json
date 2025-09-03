@@ -18,8 +18,8 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "youlinself",
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
