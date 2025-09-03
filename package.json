@@ -6,7 +6,7 @@
   "scripts": {
     "start": "chcp 65001 && electron .",
     "dev": "chcp 65001 && electron . --dev",
-    "build": "electron-packager ./ demoapp --win --arch=x64 --out ../outputs --icon=./logo.png --overwrite --ignore=\"test.html\" --ignore=\"test-ui.html\" --ignore=\"PROJECT_STRUCTURE.md\" --ignore=\"README.md\" --ignore=\"LICENSE.md\" --ignore=\"LICENSE.txt\" --ignore=\"yarn.lock\" --ignore=\".gitignore\" --asar --prune",
+    "build": "electron-packager ./ demoapp --win --arch=x64 --out ../outputs --icon=logo.png --overwrite",
     "dist": "electron-builder",
     "dist:win": "electron-builder --win"
   },
@@ -18,11 +18,20 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "youlinself",
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "electron": "^33.2.1",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "libpag": "^4.2.84",
+    "lint-staged": "^13.2.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.30.1",
+    "postcss-px-to-viewport": "^1.1.1",
+    "qrcode": "^1.5.4",
+    "react-activation": "^0.12.4",
+    "react-lottie": "^1.2.4",
+    "typescript": "^5.0.3"
   },
   "dependencies": {
     "electron-packager": "^17.1.2"
@@ -49,7 +58,7 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "./logo.png"
+      "icon": "logo.png"
     },
     "nsis": {
       "oneClick": false,

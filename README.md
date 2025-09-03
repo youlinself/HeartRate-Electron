@@ -1,27 +1,12 @@
-# electron-quick-start
-
-**Clone and run for a quick way to see Electron in action.**
-
-This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/latest/tutorial/quick-start) within the Electron documentation.
-
-A basic Electron application needs just these files:
-
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
-- `preload.js` - A content script that runs before the renderer process loads.
-
-You can learn more about each of these components in depth within the [Tutorial](https://electronjs.org/docs/latest/tutorial/tutorial-prerequisites).
-
 ## To Use
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
-git clone https://github.com/electron/electron-quick-start
+git clone https://github.com/youlinself/HeartRate-Desktop.git
 # Go into the repository
-cd electron-quick-start
+cd HeartRate-Desktop
 # Install dependencies
 npm install
 # Run the app
@@ -37,4 +22,23 @@ Note: If you're using Linux Bash for Windows, [see this guide](https://www.howto
 
 ## License
 
-[CC0 1.0 (Public Domain)](LICENSE.md)
+[GPL-3.0-only](LICENSE)
+
+## 商业使用限制
+
+⚠️ **重要提示**: 本项目采用GPL-3.0许可证，严格禁止任何形式的商业使用。包括但不限于：
+
+- 将本软件用于商业目的
+- 将本软件集成到商业产品中
+- 基于本软件开发商业应用
+- 任何以盈利为目的的使用
+
+如果您希望获得商业使用许可，请联系作者获取商业授权。
+
+## 开源义务
+
+根据GPL-3.0许可证要求，任何基于本项目的衍生作品必须：
+1. 保持相同的开源许可证（GPL-3.0）
+2. 公开完整的源代码
+3. 明确标注原始项目的版权信息
+4. 不得用于商业用途
