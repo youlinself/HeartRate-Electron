@@ -23,7 +23,7 @@ function createWindow () {
     maximizable: false, // 禁用最大化按钮
     alwaysOnTop: true, // 永远置顶窗口
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'utils/preload.js')
     }
   })
 
@@ -144,7 +144,7 @@ function createWindow () {
     mainWindow.webContents.send('bluetooth-pairing-request', details)
   })
 
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('pages/index.html')
 }
 
 app.whenReady().then(() => {
@@ -190,7 +190,7 @@ function createAboutWindow() {
   aboutWindow.setMenuBarVisibility(false);
 
   // 加载关于页面
-  aboutWindow.loadFile('about.html')
+  aboutWindow.loadFile('pages/about.html')
 
   // 窗口关闭时清理
   aboutWindow.on('closed', () => {
@@ -216,12 +216,12 @@ function createHeartRateWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'heart-rate-preload.js')
+      preload: path.join(__dirname, 'utils/heart-rate-preload.js')
     }
   })
 
   // 加载心率显示页面
-  heartRateWindow.loadFile('heart-rate.html')
+  heartRateWindow.loadFile('pages/heart-rate.html')
 
   // 监听窗口移动消息
   ipcMain.on('move-window', (event, position) => {
