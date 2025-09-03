@@ -249,6 +249,14 @@ if (window.electron && window.electron.onDisconnectBluetooth) {
     });
 }
 
+// 监听重置主窗口消息
+if (window.electron && window.electron.onResetMainWindow) {
+    window.electron.onResetMainWindow(() => {
+        console.log('收到重置主窗口消息，重新加载页面');
+        window.location.reload();
+    });
+}
+
 // 主函数
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');

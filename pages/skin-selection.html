@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择皮肤</title>
+    <link rel="stylesheet" href="../utils/skin-styles.css">
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>选择皮肤</h2>
+        
+        <div class="skin-list" id="skinList">
+            <!-- 皮肤列表将通过JavaScript动态生成 -->
+        </div>
+        
+
+    </div>
+
+    <script>
+        let selectedSkinId = null;
+        let skinConfigs = null;
+        
+        // 初始化皮肤选择
+        async function initSkinSelection() {
+            try {
+                console.log('检查electronSkinSelection API...');
+                console.log('window.electronSkinSelection:', window.electronSkinSelection);
+                
+                if (window.electronSkinSelection && window.electronSkinSelection.getSkinConfigs) {
+                    console.log('开始获取皮肤配置...');
+                    skinConfigs = await window.electronSkinSelection.getSkinConfigs();
+                    console.log('获取到的皮肤配置:', skinConfigs);
+                    console.log('皮肤配置类型:', typeof skinConfigs);
+                    console.log('皮肤配置字符串:', JSON.stringify(skinConfigs));
+                    renderSkinList();
+                } else {
+                    console.error('electronSkinSelection API 不可用');
+                    console.log('window对象:', window);
+                }
+            } catch (error) {
+                console.error('初始化皮肤选择失败:', error);
+                console.error('错误堆栈:', error.stack);
+            }
+        }
+        
+        // 渲染皮肤列表
+        function renderSkinList() {
+            const skinList = document.getElementById('skinList');
+            skinList.innerHTML = '';
+            
+            // 确保skinConfigs是包含skins数组的对象
+            const skins = skinConfigs && skinConfigs.skins ? skinConfigs.skins : [];
+            
+            skins.forEach(skin => {
+                const skinItem = document.createElement('div');
+                skinItem.className = 'skin-item';
+                skinItem.dataset.skinId = skin.id;
+                
+                skinItem.innerHTML = `
+                    <div class="skin-name">${skin.name}</div>
+                    <div class="skin-preview">
+                        <div class="preview-box" style="background: ${skin.backgroundColor}; color: ${skin.fontColor}; animation-name: ${skin.animation};">
+                            72
+                        </div>
+                    </div>
+                `;
+                
+                skinItem.addEventListener('click', () => {
+                    selectSkin(skin.id);
+                    confirmSelection();
+                });
+                
+                skinList.appendChild(skinItem);
+            });
+        }
+        
+        // 选择皮肤
+        function selectSkin(skinId) {
+            selectedSkinId = skinId;
+            
+            // 移除所有选中状态
+            document.querySelectorAll('.skin-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // 添加选中状态
+            const selectedItem = document.querySelector(`[data-skin-id="${skinId}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+            }
+        }
+        
+        // 确认选择皮肤
+        function confirmSelection() {
+            if (selectedSkinId && window.electronSkinSelection && window.electronSkinSelection.selectSkin) {
+                window.electronSkinSelection.selectSkin(selectedSkinId);
+            }
+        }
+        
+
+        
+        // 初始化
+        initSkinSelection();
+    </script>
+</body>
+</html>

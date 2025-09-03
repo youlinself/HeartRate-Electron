@@ -1,0 +1,49 @@
+{
+  "skins": [
+    {
+      "id": "default",
+      "name": "默认皮肤",
+      "fontFamily": "Arial, sans-serif",
+      "fontColor": "#ff6b6b",
+      "fontSize": 64,
+      "backgroundColor": "transparent",
+      "backgroundImage": null,
+      "animation": "pulse",
+      "textShadow": "0 0 10px rgba(255, 107, 107, 0.8), 0 0 20px rgba(255, 107, 107, 0.6), 0 0 30px rgba(255, 107, 107, 0.4)"
+    },
+    {
+      "id": "blue-tech",
+      "name": "蓝色科技",
+      "fontFamily": "'Courier New', monospace",
+      "fontColor": "#00ffff",
+      "fontSize": 60,
+      "backgroundColor": "transparent",
+      "backgroundImage": null,
+      "animation": "glow",
+      "textShadow": "0 0 15px #00ffff, 0 0 25px #00ffff, 0 0 35px #00ffff"
+    },
+    {
+      "id": "pink-cute",
+      "name": "粉色可爱",
+      "fontFamily": "'Comic Sans MS', cursive",
+      "fontColor": "#ff69b4",
+      "fontSize": 68,
+      "backgroundColor": "transparent",
+      "backgroundImage": null,
+      "animation": "bounce",
+      "textShadow": "2px 2px 4px rgba(255, 105, 180, 0.5)"
+    },
+    {
+      "id": "green-nature",
+      "name": "绿色自然",
+      "fontFamily": "'Georgia', serif",
+      "fontColor": "#32cd32",
+      "fontSize": 62,
+      "backgroundColor": "transparent",
+      "backgroundImage": null,
+      "animation": "fade",
+      "textShadow": "0 0 8px #32cd32, 0 0 16px #32cd32"
+    }
+  ],
+  "currentSkin": "pink-cute"
+}
