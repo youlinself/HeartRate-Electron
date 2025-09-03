@@ -17,5 +17,22 @@ contextBridge.exposeInMainWorld('electronHeartRate', {
   // 发送关闭窗口消息
   sendCloseWindow: () => {
     ipcRenderer.send('close-heart-rate-window');
+  },
+  
+  // 获取皮肤配置
+  getSkinConfig: () => {
+    return ipcRenderer.invoke('get-skin-config');
+  },
+  
+  // 切换皮肤
+  changeSkin: (skinId) => {
+    return ipcRenderer.invoke('change-skin', skinId);
+  },
+  
+  // 监听皮肤变化
+  onSkinChanged: (callback) => {
+    ipcRenderer.on('skin-changed', (event, skinConfig) => {
+      callback(skinConfig);
+    });
   }
 });
