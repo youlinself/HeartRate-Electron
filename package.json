@@ -6,7 +6,7 @@
   "scripts": {
     "start": "chcp 65001 && electron .",
     "dev": "chcp 65001 && electron . --dev",
-    "build": "electron-packager ./ demoapp --win --arch=x64 --out ../outputs --icon=logo.png --overwrite",
+    "build": "electron-packager ./ 心率广播 --win --arch=x64 --out ../outputs --overwrite --ignore=node_modules",
     "dist": "electron-builder",
     "dist:win": "electron-builder --win"
   },
