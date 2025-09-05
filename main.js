@@ -393,8 +393,8 @@ function createHeartRateWindow() {
   }
 
   heartRateWindow = new BrowserWindow({
-    width: 200,
-    height: 200,
+    width: 160,
+    height: 120,
     frame: false, // 无边框
     transparent: true, // 透明背景
     alwaysOnTop: true, // 永远置顶

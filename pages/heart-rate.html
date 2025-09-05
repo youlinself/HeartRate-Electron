@@ -12,11 +12,16 @@
             overflow: hidden;
             cursor: move;
             user-select: none;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .heart-container {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -26,12 +31,15 @@
         }
         
         .heart-rate {
-            font-size: 64px;
+            font-size: 72px;
             font-weight: bold;
             color: #ff6b6b;
             text-shadow: 0 0 10px rgba(255, 107, 107, 0.8),
                          0 0 20px rgba(255, 107, 107, 0.6),
                          0 0 30px rgba(255, 107, 107, 0.4);
+            margin: 0;
+            padding: 0;
+            line-height: 1;
         }
         
         .close-confirm {
